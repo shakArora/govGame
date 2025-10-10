@@ -11,4 +11,9 @@ def roll_dice(bet):
 
 def pass_bills
 
-
+class Player:
+  def __init__(self, color):
+    self.color = color
+  def roll_dice(self):
+    return roll_dice(bet)
+  def 
