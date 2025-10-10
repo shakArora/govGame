@@ -17,9 +17,7 @@ Name of Game
 What kind of game
 * Digital Dice Game
 Group Skills:
-* Charan - Graphic Design
-* Shivum - Frontend and Backend
-* Jasraj - Game Logic
+* Graphic Design, Web Programming
 
 Need to know / spotlight ideas
 
@@ -34,4 +32,6 @@ Easy or difficult to make laws
 
 Basic Plot:
 Each Member will be responsible for the following:
-
+* Charan - Graphic Design
+* Shivum - Frontend and Backend
+* Jasraj - Game Logic
