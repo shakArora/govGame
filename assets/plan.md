@@ -1,0 +1,15 @@
+- [x] Bill is Drafted: Members of Congress, the Executive Branch, and even outside groups can draft (write or draw up) bills.
+- [x] Introduced in House: Representative introduces the bill in the House. Only members can introduce bills.
+- [x] Sent to Committee: The Speaker of the House sends the bill to a committee.
+- [x] Committee Action: Most bills die here. The committee may pigeonhole, table, amend, or vote on the bill. If a bill passes, it goes to the Rules Committee.
+- [ ] Rules Committee: It decides the rules for debate, and when the bill will come up for debate.
+- [ ] Floor Action: House debates the bill, and may add amendments. If a majority votes in favor of the bill, it goes to the Senate.
+- [ ] Introduced in Senate: A Senator introduces the bill, which is sent to a committee.
+- [ ] Committee Action: Same procedure as in the House. If the committee majority votes for the bill, it goes to the whole Senate.
+- [ ] Bill Called Up: Majority floor leader decides when the whole Senate will consider the bill.
+- [ ] Floor Action: The Bill is debated, and amendments may be added. If a majority votes in favor of the bill, it is returned to the House.
+- [ ] Conference Committee: If the House rejects any of the changes, the bill goes to a conference committee of members from both houses. It works out a compromise.
+- [ ] Vote on Compromise: Both houses must approve changes made by the conference committee. If approved, the bill goes to the president.
+- [ ] Presidential Action: The president may sign (approve) the bill or veto (reject) it. If approved, it becomes law.
+- [ ] Vote to Override: If the president vetoes the bill, it can still become law if two thirds of both houses vote to override the veto.
+- [ ] Judicial Review *** When/if challenged - The Supreme Court will examine the law for constitutionality. 
