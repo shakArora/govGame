@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { welcomeMessage1 } from './logic'
 import './App.css'
 
 function App() {
   const [name, setName] = useState('')
   const [politicalParty, setPoliticalParty] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [gameStarted, setGameStarted] = useState(false)
   const [errors, setErrors] = useState({})
 
   const validateForm = () => {
@@ -14,7 +16,7 @@ function App() {
       newErrors.name = 'Name is required'
     }
     
-    if (!politicalParty.trim()) {
+    if (!politicalParty) {
       newErrors.politicalParty = 'Political party is required'
     }
     
@@ -32,6 +34,15 @@ function App() {
     } else {
       setErrors(newErrors)
     }
+  }
+
+  const handlePartySelect = (party) => {
+    setPoliticalParty(party)
+    setErrors({ ...errors, politicalParty: '' })
+  }
+
+  const handleStartGame = () => {
+    setGameStarted(true)
   }
 
   return (
@@ -58,15 +69,30 @@ function App() {
             </div>
             
             <div className="form-group">
-              <label htmlFor="party">Political Party</label>
-              <input
-                type="text"
-                id="party"
-                value={politicalParty}
-                onChange={(e) => setPoliticalParty(e.target.value)}
-                placeholder="Enter your political party"
-                className={errors.politicalParty ? 'error' : ''}
-              />
+              <label>Political Party</label>
+              <div className="party-buttons">
+                <button
+                  type="button"
+                  className={`party-button ${politicalParty === 'Democrat' ? 'selected democrat' : ''}`}
+                  onClick={() => handlePartySelect('Democrat')}
+                >
+                  Democrat
+                </button>
+                <button
+                  type="button"
+                  className={`party-button ${politicalParty === 'Republican' ? 'selected republican' : ''}`}
+                  onClick={() => handlePartySelect('Republican')}
+                >
+                  Republican
+                </button>
+                <button
+                  type="button"
+                  className={`party-button ${politicalParty === 'Independent' ? 'selected independent' : ''}`}
+                  onClick={() => handlePartySelect('Independent')}
+                >
+                  Independent
+                </button>
+              </div>
               {errors.politicalParty && <span className="error-message">{errors.politicalParty}</span>}
             </div>
             
@@ -75,7 +101,7 @@ function App() {
             </button>
           </form>
         </div>
-      ) : (
+      ) : !gameStarted ? (
         <div className="welcome-container">
           <div className="welcome-card">
             <div className="checkmark">✓</div>
@@ -94,9 +120,13 @@ function App() {
             </div>
             
             <div className="action-buttons">
-              <button className="play-button">Start Playing</button>
+              <button className="play-button" onClick={handleStartGame}>Start Playing</button>
             </div>
           </div>
+        </div>
+      ) : (
+        <div className="game-screen">
+          <h1 className="game-header">{welcomeMessage1()}</h1>
         </div>
       )}
     </div>

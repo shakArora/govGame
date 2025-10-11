@@ -80,6 +80,50 @@ input.error {
   font-size: 0.85rem;
 }
 
+.party-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.party-button {
+  background: #0a0a0a;
+  border: 2px solid #333333;
+  color: #ffffff;
+  padding: 16px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  flex: 1;
+}
+
+.party-button:hover {
+  border-color: #555555;
+  background: #1a1a1a;
+}
+
+.party-button.selected {
+  border-width: 2px;
+  color: #000000;
+  font-weight: 700;
+}
+
+.party-button.selected.democrat {
+  background: #4A90E2;
+  border-color: #4A90E2;
+}
+
+.party-button.selected.republican {
+  background: #E74C3C;
+  border-color: #E74C3C;
+}
+
+.party-button.selected.independent {
+  background: #9B59B6;
+  border-color: #9B59B6;
+}
+
 .submit-button {
   background: #ffffff;
   color: #000000;
@@ -182,6 +226,20 @@ input.error {
   background: #e0e0e0;
 }
 
+.game-screen {
+  width: 100%;
+  max-width: 1200px;
+  padding: 40px;
+}
+
+.game-header {
+  text-align: center;
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
 @media (max-width: 600px) {
   .login-container {
     padding: 40px 30px;
@@ -197,5 +255,9 @@ input.error {
   
   .welcome-title {
     font-size: 2rem;
+  }
+  
+  .party-buttons {
+    flex-direction: column;
   }
 }

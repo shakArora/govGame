@@ -49,3 +49,7 @@ export function resetGame() {
 export function createPlayer(name, politicalParty) {
   return new Player(name, politicalParty)
 }
+
+export function welcomeMessage1() {
+  return "Welcome to Lawtopia! This is where you will start a bill"
+}
