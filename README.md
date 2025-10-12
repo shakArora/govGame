@@ -1,37 +1,30 @@
 # LawTopia
 
-Bill to Law Game
+**Bill to Law Game** 
 
-Objective: 
+#### Objective: 
 Demonstrate knowledge of the Bill to Law Process
 Validate how difficult the journey legislation takes in order to pass
 Be creative to add policies, players, and knowledge of the political landscape
 Analyze the functionality of the legislative branch (and other branches) within the lawmaking process.
 2-4 Players
 
-Dice
+#### Brainstorm session  
+Name of Game: LawTopia  
+What kind of game: Digital Dice Game  
+Group Skills: Graphic Design, Web Programming  
 
-Brainstorm session
-Name of Game 
-* LawTopia
-What kind of game
-* Digital Dice Game
-Group Skills:
-* Graphic Design, Web Programming
+#### Special Rules: 
+* Change your party by spending 1000 points
+* Add another bill for 500 points
 
-Need to know / spotlight ideas
+**Graphics:** NodeJS and Vite
 
-Special Rules
-* Compete to pass a law against a bot
+**Easy or difficult to make laws:** Difficult
 
-Graphics
-* NodeJS and Vite
+**Basic Plot:** You are a congressperson and are trying to get your bill passed in Congress. The only way to pass your bill though, is to make sure that luck is on your side and you can get past the hurdles of LawTopia
 
-Easy or difficult to make laws
-* Difficult
-
-Basic Plot:
-Each Member will be responsible for the following:
+**Each Member will be responsible for the following:**
 * Charan - Graphic Design
 * Shivum - Frontend and Backend
 * Jasraj - Game Logic
