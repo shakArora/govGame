@@ -2,7 +2,7 @@
 - [x] Introduced in House: Representative introduces the bill in the House. Only members can introduce bills.
 - [x] Sent to Committee: The Speaker of the House sends the bill to a committee.
 - [x] Committee Action: Most bills die here. The committee may pigeonhole, table, amend, or vote on the bill. If a bill passes, it goes to the Rules Committee.
-- [ ] Rules Committee: It decides the rules for debate, and when the bill will come up for debate.
+- [x] Rules Committee: It decides the rules for debate, and when the bill will come up for debate.
 - [ ] Floor Action: House debates the bill, and may add amendments. If a majority votes in favor of the bill, it goes to the Senate.
 - [ ] Introduced in Senate: A Senator introduces the bill, which is sent to a committee.
 - [ ] Committee Action: Same procedure as in the House. If the committee majority votes for the bill, it goes to the whole Senate.

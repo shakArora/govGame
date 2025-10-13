@@ -34,9 +34,10 @@ export class Player {
 }
 
 export class Bill {
-  constructor(title = "My Bill", description = "This is a bill I drafted") {
+  constructor(title = "My Bill", description = "This is a bill I drafted", player) {
     this.title = title;
     this.description = description;
+    this.player = player; 
   }
 
   addTitle(title = "My Bill") {
@@ -179,6 +180,26 @@ export class Bill {
     }
   }
 
+  rulesCommitteeCheck(debateLengthBet, whenBet) {
+    let debateLength; let whenWillBeDebated; let successInComm; 
+    if (this.player.politicalParty === "Republican") {
+      debateLength = rollDiceWeighted(debateLengthBet, [6, 5.5, 5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1, 0.67], [60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 6.7]); 
+      whenWillBeDebated = rollDiceWeighted(whenBet, ["Tommorow", "Today"], [0.5, 1]); 
+      
+    } else {
+      debateLength = rollDiceWeighted(debateLengthBet, [6, 5.5, 5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1, 0.67], [6.7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]); 
+      whenWillBeDebated = rollDiceWeighted(whenBet, ["Today", "Tommorow"], [0.5, 1]); 
+    }
+    if (debateLength && whenWillBeDebated.success) {
+        successInComm = true; 
+      }
+    return {
+      debateLength: debateLength.res,
+      whenWillBeDebated: whenWillBeDebated.res,
+      success: successInComm
+    }
+  }
+    
 }
 
 export function rollDice(bet) {
@@ -210,7 +231,7 @@ export function rollDiceWeighted(bet, items, weights) {
     }
   }
   return {
-    success: ((res%2 === 0 && bet == "even") || (res%2 === 1 && bet == "odd")),
+    success: (typeof res === 'number'? ((res%2 === 0 && bet == "even") || (res%2 === 1 && bet == "odd")): (Math.random() > 0.5 ? (bet == "even" ? true : false) : (bet == "even" ? false : true))),
     roll: res
   }
 }
