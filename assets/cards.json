@@ -1,0 +1,156 @@
+[
+  {
+    "cardname": "Extra Support",
+    "effects": {
+      "supporters": 4000,
+      "money": 2000
+    },
+    "description": "Gain 4000 Supporters and 2000 dollars."
+  },
+  {
+    "cardname": "Speed Boost",
+    "effects": {
+      "speed": 5
+    },
+    "description": "Increase your speed by 5."
+  },
+  {
+    "cardname": "Fundraiser Event",
+    "effects": {
+      "money": 5000,
+      "supporters": 1000
+    },
+    "description": "Raise 5000 dollars and gain 1000 supporters."
+  },
+  {
+    "cardname": "Social Media Campaign",
+    "effects": {
+      "supporters": 3000,
+      "speed": 2
+    },
+    "description": "Gain 3000 supporters and increase speed by 2."
+  },
+  {
+    "cardname": "Volunteer Rally",
+    "effects": {
+      "supporters": 2500,
+      "energy": 10
+    },
+    "description": "Gain 2500 supporters and 10 energy."
+  },
+  {
+    "cardname": "Media Interview",
+    "effects": {
+      "supporters": 3500,
+      "money": 1000
+    },
+    "description": "Gain 3500 supporters and 1000 dollars."
+  },
+  {
+    "cardname": "Campaign Ad",
+    "effects": {
+      "money": -3000,
+      "supporters": 6000
+    },
+    "description": "Spend 3000 dollars to gain 6000 supporters."
+  },
+  {
+    "cardname": "Debate Prep",
+    "effects": {
+      "speed": 3,
+      "energy": -5
+    },
+    "description": "Increase speed by 3 but lose 5 energy."
+  },
+  {
+    "cardname": "Community Service",
+    "effects": {
+      "supporters": 2000,
+      "energy": 5
+    },
+    "description": "Gain 2000 supporters and 5 energy."
+  },
+  {
+    "cardname": "Donor Meeting",
+    "effects": {
+      "money": 4000
+    },
+    "description": "Gain 4000 dollars."
+  },
+  {
+    "cardname": "Press Release",
+    "effects": {
+      "supporters": 1500,
+      "speed": 1
+    },
+    "description": "Gain 1500 supporters and increase speed by 1."
+  },
+  {
+    "cardname": "Strategy Session",
+    "effects": {
+      "energy": 15,
+      "speed": 2
+    },
+    "description": "Gain 15 energy and increase speed by 2."
+  },
+  {
+    "cardname": "Fund Matching",
+    "effects": {
+      "money": 3000
+    },
+    "description": "Gain 3000 dollars from matched donations."
+  },
+  {
+    "cardname": "Town Hall",
+    "effects": {
+      "supporters": 4000,
+      "energy": -10
+    },
+    "description": "Gain 4000 supporters but lose 10 energy."
+  },
+  {
+    "cardname": "Merch Sale",
+    "effects": {
+      "money": 2500,
+      "supporters": 500
+    },
+    "description": "Earn 2500 dollars and gain 500 supporters."
+  },
+  {
+    "cardname": "Volunteer Training",
+    "effects": {
+      "energy": 20
+    },
+    "description": "Gain 20 energy."
+  },
+  {
+    "cardname": "Negative Ad",
+    "effects": {
+      "money": -2000,
+      "supporters": -1500
+    },
+    "description": "Lose 2000 dollars and 1500 supporters."
+  },
+  {
+    "cardname": "Endorsement",
+    "effects": {
+      "supporters": 5000
+    },
+    "description": "Gain 5000 supporters."
+  },
+  {
+    "cardname": "Speed Training",
+    "effects": {
+      "speed": 4,
+      "energy": -8
+    },
+    "description": "Increase speed by 4 but lose 8 energy."
+  },
+  {
+    "cardname": "Grant Award",
+    "effects": {
+      "money": 6000
+    },
+    "description": "Gain 6000 dollars from a grant."
+  }
+]
