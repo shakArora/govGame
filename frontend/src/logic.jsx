@@ -72,30 +72,28 @@ export class Bill {
   // HELPER FUNCTIONS FOR COMMITTEE ACTION
 
   getPublicOpinion(chanceOfSuccess) {
-    // this goes into committee action (part 1 is public reponse, then committee does smth)
-    let n = chanceOfSuccess;
-    let d = [0, 0, 0, 0];
-    while (d[0] + d[1] + d[2] + d[3] != n) {
-      d[0] = Math.floor(Math.random() * 100) / 100;
-      d[1] = Math.floor(Math.random() * 100) / 100;
-      d[2] = Math.floor(Math.random() * 100) / 100;
-      d[3] = Math.floor(Math.random() * 100) / 100;
-    }
+    // generate four random weights and scale them to the desired magnitude
+    const r0 = Math.random();
+    const r1 = Math.random();
+    const r2 = Math.random();
+    const r3 = Math.random();
+    const sum = r0 + r1 + r2 + r3;
+    const scale = sum === 0 ? 0 : (chanceOfSuccess / sum);
     return {
-      expertsRawInFavor: d[0],
-      publicRawInFavor: d[1],
-      expertsWithAmends: d[2],
-      publicWithAmends: d[3]
+      expertsRawInFavor: r0 * scale,
+      publicRawInFavor: r1 * scale,
+      expertsWithAmends: r2 * scale,
+      publicWithAmends: r3 * scale
     }
   }
 
   committeeMarkup(publicOpinion, bet) {
     let weights = [publicOpinion.expertsRawInFavor + publicOpinion.publicRawInFavor,
     publicOpinion.expertsWithAmends + publicOpinion.publicWithAmends];
-    let roll = rollDiceWeighted(bet, ["Keep", "Amend"], weights);
-    if (!roll.success) {
+    const rollResult = rollDiceWeighted(bet, ["Keep", "Amend"], weights);
+    if (!rollResult.success) {
       return "The committee will amend your bill";
-    } else if (roll.res === "Keep" && bet == "odd") {
+    } else if (rollResult.roll === "Keep" && bet == "odd") {
       return "The committee is keeping your bill";
     } else {
       return "The committee will substantially change the bill."; 
@@ -112,20 +110,8 @@ export class Bill {
      * POSSIBLE stage: "markup", null, "vote"
      *    null means it passed
      */
-    let publicOpinion = this.getPublicOpinion(peopleInFavor / peopleAgainst);
+    let publicOpinion = this.getPublicOpinion(peopleInFavor / Math.max(1, peopleAgainst));
     let willBeAmended = this.committeeMarkup(publicOpinion, amendBet); 
-    while (willBeAmended === "The committee has amended your bill") {
-      // SAY PLEASE AMEND YOUR BILL & ADD A DESCRIPTION USING SM INPUTS
-      this.addDescription(desc); 
-      willBeAmended = this.committeeMarkup(publicOpinion, amendBet); 
-    }
-    if (willBeAmended == "The committee will substantially change the bill.") {
-      return {
-        status: "fail", 
-        stage: "markup"
-      }
-    }
-    votes_from_committee = []; 
     const houseCommitteeSizes = {
       "Agriculture": 54,
       "Appropriations": 63,
@@ -155,27 +141,52 @@ export class Bill {
       "Joint Committee on Taxation": 5,
     };
     let size = houseCommitteeSizes[category];
-    let votesFor = 0; 
-    for (let i = 0; i < size; i++) {
-      votes_from_committee[i] = rollDiceWeighted(voteBet, ["for", "against"], [0.1, 0.9]); 
-      if (votes_from_committee[i] === "for") {
-        votesFor++; 
+    if (!size || isNaN(size)) size = 25;
+    const totalHouse = peopleInFavor + peopleAgainst;
+    const supportShare = totalHouse > 0 ? peopleInFavor / totalHouse : 0.5;
+    let pFor = 0.35 + 0.3 * supportShare;
+    if (pFor < 0.35) pFor = 0.35;
+    if (pFor > 0.65) pFor = 0.65;
+    const estimatedPassPercent = Math.round(pFor * 100);
+    while (willBeAmended === "The committee has amended your bill") {
+      // SAY PLEASE AMEND YOUR BILL & ADD A DESCRIPTION USING SM INPUTS
+      this.addDescription(desc); 
+      willBeAmended = this.committeeMarkup(publicOpinion, amendBet); 
+    }
+    if (willBeAmended == "The committee will substantially change the bill.") {
+      return {
+        status: "fail", 
+        stage: "markup",
+        passPercent: estimatedPassPercent
       }
     }
+    let votes_from_committee = []; 
+    let votesFor = 0; 
+    // make it a bit easier and influenced by initial support (values computed above)
+    if (!size || isNaN(size)) size = 25;
+    for (let i = 0; i < size; i++) {
+      const isFor = Math.random() < pFor;
+      votes_from_committee[i] = isFor ? "for" : "against"; 
+      if (isFor) votesFor++;
+    }
+    const passPercent = (votesFor / size) * 100;
     if (votesFor/size > 0.5) {
       return {
         status: "pass",
         stage: null, 
+        passPercent
       }
     } else if ((size - votesFor)/size > 0.8) {
       return {
         status: "table",
-        stage: "vote"
+        stage: "vote",
+        passPercent
       }
     } else {
       return {
         status: "pigeonhole", 
-        stage: "vote"
+        stage: "vote",
+        passPercent
       }
     }
   }
@@ -194,26 +205,27 @@ export class Bill {
         successInComm = true; 
       }
     return {
-      debateLength: debateLength.res,
-      whenWillBeDebated: whenWillBeDebated.res,
+      debateLength: debateLength.roll,
+      whenWillBeDebated: whenWillBeDebated.roll,
       success: successInComm
     }
   }
     
   secondHouseVote(bet) {
     let n = rollDiceWeighted(bet, ["Agree", "Disagree"], [3, 1]); 
-    if (n.res === "Disagree") {
-      return conferenceCommittee(bet); 
+    if (n.roll === "Disagree") {
+      return this.conferenceCommittee(bet); 
     }
     return true; 
   }
 
   conferenceCommittee(bet) {
-    while (!rollDice(bet).success) {
-      // FIND A WAY TO GET THE DESCRIPTION FROM HTML (innerhtml)
-      this.addDescription(desc); 
+    // simple resolution loop with a maximum number of attempts
+    let attempts = 0;
+    while (!rollDice(bet).success && attempts < 10) {
+      attempts++;
     }
-    return true; 
+    return attempts < 10; 
   }
 }
 
