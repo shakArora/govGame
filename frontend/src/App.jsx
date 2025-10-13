@@ -103,13 +103,14 @@ function App() {
     }
   }, [isVoting, currentVoter])
 
+  const assetUrl = (file) => `${import.meta.env.BASE_URL}assets/${file}`
   const getBackgroundForStage = () => {
       if (stageNumber >= 1 && stageNumber <= 12) {
-        return '/assets/congress.gif'
+        return assetUrl('congress.gif')
       } else if (stageNumber >= 13) {
-        return '/assets/whitehouse.gif'
+        return assetUrl('whitehouse.gif')
       }
-      return '/assets/congress.gif'
+      return assetUrl('congress.gif')
   }
 
   const committeeSize = committeeSizes[selectedCommittee] || 25
