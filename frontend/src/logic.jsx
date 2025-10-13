@@ -200,6 +200,21 @@ export class Bill {
     }
   }
     
+  secondHouseVote(bet) {
+    let n = rollDiceWeighted(bet, ["Agree", "Disagree"], [3, 1]); 
+    if (n.res === "Disagree") {
+      return conferenceCommittee(bet); 
+    }
+    return true; 
+  }
+
+  conferenceCommittee(bet) {
+    while (!rollDice(bet).success) {
+      // FIND A WAY TO GET THE DESCRIPTION FROM HTML (innerhtml)
+      this.addDescription(desc); 
+    }
+    return true; 
+  }
 }
 
 export function rollDice(bet) {
