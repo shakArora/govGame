@@ -174,6 +174,10 @@ function App() {
     }
     const bill = new Bill(billTitle, billDescription, player)
     setCurrentBill(bill)
+    if (billTitle === "press f to pay respects") {
+      setStageNumber(13)
+      return
+    }
     showCardSelection()
   }
 
