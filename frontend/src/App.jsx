@@ -103,14 +103,26 @@ function App() {
     }
   }, [isVoting, currentVoter])
 
-  const assetUrl = (file) => `${import.meta.env.BASE_URL}assets/${file}`
+  const assetUrl = (file) => {
+    const base = import.meta.env.BASE_URL || '/'
+    const url = `${base}assets/${encodeURIComponent(file)}`
+    console.log('Asset URL:', url, 'for file:', file)
+    return url
+  }
+  
   const getBackgroundForStage = () => {
-      if (stageNumber >= 1 && stageNumber <= 12) {
-        return assetUrl('congress.gif')
-      } else if (stageNumber >= 13) {
-        return assetUrl('whitehouse.gif')
+      console.log('gameStarted:', gameStarted, 'stageNumber:', stageNumber)
+      if (!gameStarted) {
+        return { type: 'video', url: assetUrl('Untitled design (6).mp4') }
       }
-      return assetUrl('congress.gif')
+      if (stageNumber >= 1 && stageNumber <= 12) {
+        return { type: 'image', url: assetUrl('Untitled design (4).gif') }
+      } else if (stageNumber >= 13 && stageNumber <= 14) {
+        return { type: 'image', url: assetUrl('whitehouse.gif') }
+      } else if (stageNumber >= 15) {
+        return { type: 'video', url: assetUrl('Untitled design (6).mp4') }
+      }
+      return { type: 'image', url: assetUrl('Untitled design (4).gif') }
   }
 
   const committeeSize = committeeSizes[selectedCommittee] || 25
@@ -509,8 +521,21 @@ function App() {
     addLog('Starting new bill...')
   }
 
+  const backgroundData = getBackgroundForStage()
+  console.log('Background data:', backgroundData)
+
   return (
-    <div className="App">
+    <div className="App" style={backgroundData.type === 'image' ? { backgroundImage: `url("${backgroundData.url}")` } : {}}>
+      {backgroundData.type === 'video' && (
+        <video 
+          className="background-video" 
+          src={backgroundData.url} 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+        />
+      )}
       {!submitted ? (
         <div className="login-container">
           <div className="login-header">
@@ -583,7 +608,10 @@ function App() {
           </div>
         </div>
       ) : (
-        <div className="game-screen" style={{ backgroundImage: `url(${getBackgroundForStage()})` }}>
+        <div className="game-screen">
+          {gameStage === 'judicial' && (
+            <video className="court-video-bg" src={assetUrl('6699964-hd_1920_1080_24fps.mp4')} autoPlay loop muted playsInline />
+          )}
           {showCardModal && (
             <div className="card-modal-overlay">
               <div className="card-modal">
@@ -898,6 +926,9 @@ function App() {
                 <div className="result-area passed">
                   <h1>BILL PASSED!</h1>
                   <p>Congratulations! Your bill "{currentBill.title}" is now law!</p>
+                  <div className="celebration-media">
+                    <img src={assetUrl('Untitled design (9).gif')} alt="win" style={{maxWidth:'400px', width:'100%', borderRadius:'10px'}} />
+                  </div>
                   <button onClick={handleRestart} className="action-btn">Draft Another Bill</button>
                 </div>
               )}
@@ -928,6 +959,9 @@ function App() {
                     </div>
                   </div>
                   
+                  <div className="celebration-media" style={{marginTop:'10px'}}>
+                    <img src={assetUrl('loose.gif')} alt="lose" style={{maxWidth:'400px', width:'100%', borderRadius:'10px'}} />
+                  </div>
                   <button onClick={handleRestart} className="action-btn retry-btn">Try Another Bill</button>
                 </div>
               )}
