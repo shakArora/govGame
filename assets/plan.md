@@ -37,3 +37,14 @@
 7. Introduce to Senate: 
     Introduce -> Get senator -> Prob [0.9, 0.1] [Get, not get (fail)] but if house reacction for pos is < 0.60 -> Prob [0.5, 0.5] [get, not get (fail)] 
     if no senator to sponsor -> bill fails
+
+
+8. Senate COmmittee thingy for the thingy: 
+    Sent to committee of your choice ->
+    Intro react like house
+
+9. bill called up 
+same as house rules committee
+[0.5, 0.5] with bad init reaction, [0.6, 0.4] with good init reaction
+
+10. floor action thing ill do it later
