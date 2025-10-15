@@ -55,7 +55,7 @@ export class Bill {
     // bet must be "even" or "odd"
     let peopleInFavor = 0;
     for (let i = 0; i < 435; i++) {
-      if (rollDice(bet).success) {
+      if (rollDiceWeighted(bet, [true, false], [0.9, 0.1])) {
         peopleInFavor++;
       }
     }

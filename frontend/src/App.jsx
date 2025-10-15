@@ -176,6 +176,7 @@ function App() {
     setCurrentBill(bill)
     if (billTitle === "press f to pay respects") {
       setStageNumber(13)
+      setGameStage('judicial')
       return
     }
     showCardSelection()
