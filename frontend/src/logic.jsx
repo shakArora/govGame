@@ -34,10 +34,11 @@ export class Player {
 }
 
 export class Bill {
-  constructor(title = "My Bill", description = "This is a bill I drafted", player) {
+  constructor(title = "My Bill", description = "This is a bill I drafted", player, radical = "Bipartisan") {
     this.title = title;
     this.description = description;
     this.player = player; 
+    this.radical = radical; // radical = 10%, controversial = 20%, bipartisan = 70% 
   }
 
   addTitle(title = "My Bill") {
