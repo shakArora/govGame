@@ -345,7 +345,7 @@ function App() {
 
   const handleHouseFloorVote = () => {
     if (!currentBill) return
-    const success = Math.random() > 0.0001 //change to 0.45
+    const success = Math.random() > 0.4
     
     if (success) {
       addLog('House Floor Vote PASSED! Moving to Senate...')
@@ -389,7 +389,7 @@ function App() {
   }
 
   const handleSenateFloorVote = () => {
-    const success = Math.random() > 0.001 //change to 0.45
+    const success = Math.random() > 0.4
     
     if (success) {
       addLog('Senate Floor Vote PASSED!')
@@ -404,7 +404,7 @@ function App() {
   }
 
   const handleConference = () => {
-    const needsConference = Math.random() > 0.5
+    const needsConference = Math.random() > 0.35
     if (needsConference) {
       addLog('House rejected changes - Conference Committee convened')
       setGameStage('compromise')
@@ -725,18 +725,18 @@ function App() {
                         <span className="strategy-desc">Build bipartisan support</span>
                       </button>
                       <button
-                        className={`bet-btn ${strategicChoice === 'aggressive' ? 'selected' : ''}`}
-                        onClick={() => setStrategicChoice('aggressive')}
-                      >
-                        AGGRESSIVE
-                        <span className="strategy-desc">Push through party lines</span>
-                      </button>
-                      <button
                         className={`bet-btn ${strategicChoice === 'moderate' ? 'selected' : ''}`}
                         onClick={() => setStrategicChoice('moderate')}
                       >
                         MODERATE
                         <span className="strategy-desc">Balanced approach</span>
+                      </button>
+                      <button
+                        className={`bet-btn ${strategicChoice === 'aggressive' ? 'selected' : ''}`}
+                        onClick={() => setStrategicChoice('aggressive')}
+                      >
+                        AGGRESSIVE
+                        <span className="strategy-desc">Push through party lines</span>
                       </button>
                     </div>
                   </div>
