@@ -51,11 +51,19 @@ export class Bill {
     return this.description;
   }
 
-  introduce(bet) {
-    const baseChance = 0.3 + Math.random() * 0.4;
-    const curve = Math.pow(Math.random(), 1.5);
-    let favorProbability = baseChance + curve * 0.3;
-    favorProbability = Math.max(0.25, Math.min(0.85, favorProbability));
+  introduce(bet, supporters = 0, money = 0, energy = 0, party = 'Independent') {
+    const baseChance = 0.20 + Math.random() * 0.25;
+    const curve = Math.pow(Math.random(), 2.0);
+    let favorProbability = baseChance + curve * 0.20;
+    
+    const supportersBonus = supporters * 0.001;
+    const moneyBonus = money * 0.0005;
+    const energyBonus = energy * 0.0008;
+    
+    const partyBonus = party === 'Democrat' ? 0.03 : party === 'Republican' ? 0.02 : 0;
+    
+    favorProbability += supportersBonus + moneyBonus + energyBonus + partyBonus;
+    favorProbability = Math.max(0.15, Math.min(0.75, favorProbability));
     
     let peopleInFavor = 0;
     for (let i = 0; i < 435; i++) {
@@ -105,7 +113,7 @@ export class Bill {
     }
   }
 
-  committeeAction(peopleInFavor, peopleAgainst, amendBet, desc = "", category = "Rules", voteBet = "even") {
+  committeeAction(peopleInFavor, peopleAgainst, amendBet, desc = "", category = "Rules", voteBet = "even", supporters = 0, money = 0, energy = 0, strategy = 'moderate') {
     /**
      * return {
      *  status: "fail", 
@@ -150,8 +158,15 @@ export class Bill {
     const totalHouse = peopleInFavor + peopleAgainst;
     const supportShare = totalHouse > 0 ? peopleInFavor / totalHouse : 0.5;
     let pFor = 0.35 + 0.3 * supportShare;
-    if (pFor < 0.35) pFor = 0.35;
-    if (pFor > 0.65) pFor = 0.65;
+    
+    const supportersBonus = supporters * 0.0008;
+    const moneyBonus = money * 0.0004;
+    const energyBonus = energy * 0.0006;
+    const strategyBonus = strategy === 'compromise' ? 0.05 : strategy === 'aggressive' ? -0.02 : 0.02;
+    
+    pFor += supportersBonus + moneyBonus + energyBonus + strategyBonus;
+    if (pFor < 0.25) pFor = 0.25;
+    if (pFor > 0.75) pFor = 0.75;
     const estimatedPassPercent = Math.round(pFor * 100);
     while (willBeAmended === "The committee has amended your bill") {
       // SAY PLEASE AMEND YOUR BILL & ADD A DESCRIPTION USING SM INPUTS

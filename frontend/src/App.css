@@ -22,14 +22,88 @@
   z-index: -1;
 }
 
+.floating-orbs {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.orb-1 {
+  top: 25%;
+  left: 25%;
+  width: 128px;
+  height: 128px;
+  opacity: 0.5;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  top: 75%;
+  right: 25%;
+  width: 96px;
+  height: 96px;
+  opacity: 0.4;
+  animation-delay: 1s;
+}
+
+.orb-3 {
+  top: 50%;
+  right: 33%;
+  width: 64px;
+  height: 64px;
+  opacity: 0.45;
+  animation-delay: 0.5s;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.6;
+  }
+}
+
 .login-container {
   width: 100%;
-  max-width: 480px;
-  background: rgba(26, 26, 26, 0.75);
-  border: 1px solid #333333;
-  border-radius: 10px;
+  max-width: 520px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(40px) saturate(250%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
   padding: 50px 40px;
-  backdrop-filter: blur(10px);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.3), 
+              0 16px 64px rgba(255, 255, 255, 0.2), 
+              inset 0 3px 0 rgba(255, 255, 255, 0.6), 
+              inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  z-index: 10;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0.9;
+}
+
+.login-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 36px 90px rgba(0, 0, 0, 0.35), 
+              0 18px 70px rgba(255, 255, 255, 0.25), 
+              inset 0 3px 0 rgba(255, 255, 255, 0.7), 
+              inset 0 -1px 0 rgba(255, 255, 255, 0.4);
+  opacity:0.95;
 }
 
 .login-header {
@@ -38,17 +112,19 @@
 }
 
 .game-title {
-  color: #ffffff;
+  color: rgba(0, 0, 0, 0.9);
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 10px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .game-subtitle {
-  color: #888888;
+  color: rgba(0, 0, 0, 0.6);
   font-size: 1rem;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .login-form {
@@ -64,27 +140,32 @@
 }
 
 label {
-  color: #cccccc;
+  color: rgba(0, 0, 0, 0.8);
   font-size: 0.95rem;
   font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
-input {
-  background: #0a0a0a;
-  border: 2px solid #333333;
-  color: #ffffff;
+.login-form input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: rgba(0, 0, 0, 0.9);
   padding: 16px 18px;
   font-size: 1rem;
-  border-radius: 5px;
+  border-radius: 8px;
   outline: none;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
 }
 
-input:focus {
-  border-color: #666666;
+.login-form input:focus {
+  border-color: rgba(66, 133, 244, 0.8);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
 }
 
-input::placeholder {
-  color: #666666;
+.login-form input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
 }
 
 input.error {
@@ -102,22 +183,25 @@ input.error {
 }
 
 .party-button {
-  background: #0a0a0a;
-  border: 2px solid #333333;
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: rgba(0, 0, 0, 0.8);
   padding: 16px 20px;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   outline: none;
   flex: 1;
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .party-button:hover {
-  border-color: #555555;
-  background: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 .party-button.selected {
@@ -142,21 +226,24 @@ input.error {
 }
 
 .submit-button {
-  background: #ffffff;
-  color: #000000;
+  background: #0C115B;
+  color: #ffffff;
   border: none;
-  padding: 18px 30px;
+  padding: 20px 30px;
   font-size: 1.1rem;
   font-weight: 700;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   margin-top: 15px;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(12, 17, 91, 0.3);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .submit-button:hover {
-  background: #e0e0e0;
+  background: #0a0d47;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(12, 17, 91, 0.4);
 }
 
 .welcome-container {
@@ -165,12 +252,27 @@ input.error {
 }
 
 .welcome-card {
-  background: rgba(26, 26, 26, 0.75);
-  border: 1px solid #333333;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(40px) saturate(250%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
   padding: 60px 50px;
   text-align: center;
-  backdrop-filter: blur(10px);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.3), 
+              0 16px 64px rgba(255, 255, 255, 0.2), 
+              inset 0 3px 0 rgba(255, 255, 255, 0.6), 
+              inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  z-index: 10;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.welcome-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 36px 90px rgba(0, 0, 0, 0.35), 
+              0 18px 70px rgba(255, 255, 255, 0.25), 
+              inset 0 3px 0 rgba(255, 255, 255, 0.7), 
+              inset 0 -1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .checkmark {
@@ -188,14 +290,17 @@ input.error {
 
 .welcome-title {
   font-size: 2.5rem;
-  color: #ffffff;
+  color: rgba(0, 0, 0, 0.9);
   margin-bottom: 40px;
   font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .player-info {
-  background: #0a0a0a;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
   padding: 30px;
   margin-bottom: 40px;
 }
@@ -205,7 +310,7 @@ input.error {
   justify-content: space-between;
   align-items: center;
   padding: 15px 0;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .info-item:last-child {
@@ -213,15 +318,17 @@ input.error {
 }
 
 .info-label {
-  color: #888888;
+  color: rgba(0, 0, 0, 0.6);
   font-size: 1rem;
   font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .info-value {
-  color: #ffffff;
+  color: rgba(0, 0, 0, 0.9);
   font-size: 1.2rem;
   font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .action-buttons {
@@ -231,21 +338,24 @@ input.error {
 }
 
 .play-button {
-  background: #ffffff;
-  color: #000000;
+  background: #0C115B;
+  color: #ffffff;
   border: none;
-  padding: 16px 40px;
+  padding: 18px 40px;
   font-size: 1.1rem;
   font-weight: 700;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   flex: 1;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(12, 17, 91, 0.3);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .play-button:hover {
-  background: #e0e0e0;
+  background: #0a0d47;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(12, 17, 91, 0.4);
 }
 
 .game-screen {
@@ -388,22 +498,31 @@ input.error {
 }
 
 .bill-input, .bill-textarea {
-  background: #1a1a1a;
-  border: 2px solid #333333;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
   padding: 15px;
   font-size: 1rem;
   border-radius: 5px;
   outline: none;
   font-family: inherit;
+  width: 100%;
+  backdrop-filter: blur(10px);
+}
+
+.bill-input::placeholder, .bill-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .bill-input:focus, .bill-textarea:focus {
-  border-color: #666666;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
 .bill-textarea {
   resize: vertical;
+  min-height: 120px;
 }
 
 .action-btn {

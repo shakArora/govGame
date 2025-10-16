@@ -92,16 +92,6 @@ function App() {
     }
   }, [gameStarted])
 
-  useEffect(() => {
-    if (isVoting && currentVoter < 435) {
-      const timer = setTimeout(() => {
-        const vote = Math.random() > 0.5 ? 'yes' : 'no'
-        setVotingProgress(prev => [...prev, vote])
-        setCurrentVoter(prev => prev + 1)
-      }, 10)
-      return () => clearTimeout(timer)
-    }
-  }, [isVoting, currentVoter])
 
   const assetUrl = (file) => {
     const base = import.meta.env.BASE_URL || '/'
@@ -186,7 +176,7 @@ function App() {
     }
     const bill = new Bill(billTitle, billDescription, player)
     setCurrentBill(bill)
-    if (billTitle === "press f to pay respects") {
+    if ((billTitle === "press f to pay respects") || (billTitle === "mr short is the best")) {
       setStageNumber(13)
       setGameStage('judicial')
       return
@@ -262,20 +252,39 @@ function App() {
 
   const handleIntroduceBill = () => {
     if (!currentBill) return
+    
+    const betChoice = strategicChoice === 'compromise' ? 'even' : 'odd'
+    const result = currentBill.introduce(betChoice, supporters, money, energy, politicalParty)
+    
     setIsVoting(true)
     setVotingProgress([])
     setCurrentVoter(0)
     
-    const betChoice = strategicChoice === 'compromise' ? 'even' : 'odd'
+    const yesVotes = result.peopleInFavor
+    const noVotes = result.peopleAgainst
+    const votes = []
+    for (let i = 0; i < yesVotes; i++) votes.push('yes')
+    for (let i = 0; i < noVotes; i++) votes.push('no')
+    for (let i = votes.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [votes[i], votes[j]] = [votes[j], votes[i]]
+    }
     
-    setTimeout(() => {
-      const result = currentBill.introduce(betChoice)
-      setVoteResult(result)
-      setIsVoting(false)
-      addLog(`Bill introduced: ${result.peopleInFavor} in favor, ${result.peopleAgainst} against`)
-      setGameStage('committee')
-      setStageNumber(3)
-    }, 5000)
+    let index = 0
+    const interval = setInterval(() => {
+      if (index < 435) {
+        setVotingProgress(prev => [...prev, votes[index]])
+        setCurrentVoter(prev => prev + 1)
+        index++
+      } else {
+        clearInterval(interval)
+        setVoteResult(result)
+        setIsVoting(false)
+        addLog(`Bill introduced: ${result.peopleInFavor} in favor, ${result.peopleAgainst} against`)
+        setGameStage('committee')
+        setStageNumber(3)
+      }
+    }, 10)
   }
 
   const handleCommittee = () => {
@@ -294,12 +303,15 @@ function App() {
         amendBet,
         billDescription,
         selectedCommittee,
-        voteBet
+        voteBet,
+        supporters,
+        money,
+        energy,
+        strategicChoice
       )
       
       setCommitteeResult(result)
-      // CHANGE THIS TO RESULT.STATUS === 'pass'
-      if (1==1) {
+      if (result.status === 'pass') {
         addLog(`${selectedCommittee} Committee passed the bill!`)
         setStageNumber(4)
         setGameStage('houseCommittee')
@@ -345,7 +357,19 @@ function App() {
 
   const handleHouseFloorVote = () => {
     if (!currentBill) return
-    const success = Math.random() > 0.4
+    
+    let baseChance = 0.45
+    const supportersBonus = supporters * 0.0005
+    const moneyBonus = money * 0.0003
+    const energyBonus = energy * 0.0004
+    const speedBonus = speed * 0.0002
+    const strategyBonus = strategicChoice === 'compromise' ? 0.08 : strategicChoice === 'aggressive' ? 0.03 : 0.05
+    const partyBonus = politicalParty === 'Democrat' ? 0.04 : politicalParty === 'Republican' ? 0.03 : 0.01
+    
+    baseChance += supportersBonus + moneyBonus + energyBonus + speedBonus + strategyBonus + partyBonus
+    baseChance = Math.max(0.25, Math.min(0.85, baseChance))
+    
+    const success = Math.random() < baseChance
     
     if (success) {
       addLog('House Floor Vote PASSED! Moving to Senate...')
@@ -366,9 +390,17 @@ function App() {
   }
 
   const handleSenateCommittee = () => {
-    const baseKillChance = 0.001 //change to 0.45
-    const killChance = baseKillChance
-    const isKilled = Math.random() < killChance
+    let baseKillChance = 0.45
+    const supportersBonus = supporters * -0.0004
+    const moneyBonus = money * -0.0002
+    const energyBonus = energy * -0.0003
+    const strategyBonus = strategicChoice === 'compromise' ? -0.06 : strategicChoice === 'aggressive' ? 0.02 : -0.03
+    const partyBonus = politicalParty === 'Democrat' ? -0.03 : politicalParty === 'Republican' ? -0.02 : 0
+    
+    baseKillChance += supportersBonus + moneyBonus + energyBonus + strategyBonus + partyBonus
+    baseKillChance = Math.max(0.15, Math.min(0.75, baseKillChance))
+    
+    const isKilled = Math.random() < baseKillChance
     
     if (!isKilled) {
       addLog('Senate Committee approved the bill')
@@ -377,8 +409,8 @@ function App() {
     } else {
       setGameStage('failed')
       setFailureStage('Stage 8: Senate Committee')
-      setFailureReason(`The Senate committee killed your bill. Kill chance: ${(killChance * 100).toFixed(1)}%`)
-      addLog(`Bill died in Senate Committee (kill chance ${(killChance * 100).toFixed(1)}%)`)
+      setFailureReason(`The Senate committee killed your bill. Kill chance: ${(baseKillChance * 100).toFixed(1)}%`)
+      addLog(`Bill died in Senate Committee (kill chance ${(baseKillChance * 100).toFixed(1)}%)`)
     }
   }
 
@@ -389,7 +421,18 @@ function App() {
   }
 
   const handleSenateFloorVote = () => {
-    const success = Math.random() > 0.4
+    let baseChance = 0.45
+    const supportersBonus = supporters * 0.0005
+    const moneyBonus = money * 0.0003
+    const energyBonus = energy * 0.0004
+    const speedBonus = speed * 0.0002
+    const strategyBonus = strategicChoice === 'compromise' ? 0.10 : strategicChoice === 'aggressive' ? 0.02 : 0.06
+    const partyBonus = politicalParty === 'Democrat' ? 0.04 : politicalParty === 'Republican' ? 0.03 : 0.01
+    
+    baseChance += supportersBonus + moneyBonus + energyBonus + speedBonus + strategyBonus + partyBonus
+    baseChance = Math.max(0.25, Math.min(0.85, baseChance))
+    
+    const success = Math.random() < baseChance
     
     if (success) {
       addLog('Senate Floor Vote PASSED!')
@@ -417,7 +460,16 @@ function App() {
   }
 
   const handleCompromise = () => {
-    const success = Math.random() > 0.35
+    let baseChance = 0.55
+    const supportersBonus = supporters * 0.0003
+    const moneyBonus = money * 0.0002
+    const energyBonus = energy * 0.0002
+    const strategyBonus = strategicChoice === 'compromise' ? 0.12 : strategicChoice === 'aggressive' ? -0.05 : 0.05
+    
+    baseChance += supportersBonus + moneyBonus + energyBonus + strategyBonus
+    baseChance = Math.max(0.30, Math.min(0.90, baseChance))
+    
+    const success = Math.random() < baseChance
     
     if (success) {
       addLog('Both chambers approved compromise version!')
@@ -535,6 +587,13 @@ function App() {
           muted 
           playsInline
         />
+      )}
+      {(!submitted || !gameStarted) && (
+        <div className="floating-orbs">
+          <div className="glass-orb orb-1"></div>
+          <div className="glass-orb orb-2"></div>
+          <div className="glass-orb orb-3"></div>
+        </div>
       )}
       {!submitted ? (
         <div className="login-container">
