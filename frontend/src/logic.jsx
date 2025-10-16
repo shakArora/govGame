@@ -52,7 +52,6 @@ export class Bill {
   }
 
   introduce(bet) {
-    // bet must be "even" or "odd"
     const baseChance = 0.3 + Math.random() * 0.4;
     const curve = Math.pow(Math.random(), 1.5);
     let favorProbability = baseChance + curve * 0.3;
