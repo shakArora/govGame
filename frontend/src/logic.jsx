@@ -53,9 +53,14 @@ export class Bill {
 
   introduce(bet) {
     // bet must be "even" or "odd"
+    const baseChance = 0.3 + Math.random() * 0.4;
+    const curve = Math.pow(Math.random(), 1.5);
+    let favorProbability = baseChance + curve * 0.3;
+    favorProbability = Math.max(0.25, Math.min(0.85, favorProbability));
+    
     let peopleInFavor = 0;
     for (let i = 0; i < 435; i++) {
-      if (rollDiceWeighted(bet, [true, false], [0.9, 0.1])) {
+      if (Math.random() < favorProbability) {
         peopleInFavor++;
       }
     }
