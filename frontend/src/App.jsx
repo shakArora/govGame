@@ -176,8 +176,7 @@ function App() {
     const bill = new Bill(billTitle, billDescription, player)
     setCurrentBill(bill)
     if ((billTitle === "press f to pay respects") || (billTitle === "mr short is the best")) {
-      setStageNumber(13)
-      setGameStage('judicial')
+      for (let i = 0; i < 14; i++) advanceToNextStage()
       return
     }
     showCardSelection()
