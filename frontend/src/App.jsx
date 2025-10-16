@@ -60,7 +60,7 @@ function App() {
     15: 'Judicial Review'
   }
 
-  const committees = ["Rules", "Agriculture", "Appropriations", "Armed Services", "Budget", "Education and Workforce", "Energy and Commerce", "Financial Services", "Foreign Affairs", "Judiciary", "Transportation and Infrastructure", "Ways and Means", "Testing 100%"]
+  const committees = ["Rules", "Agriculture", "Appropriations", "Armed Services", "Budget", "Education and Workforce", "Energy and Commerce", "Financial Services", "Foreign Affairs", "Judiciary", "Transportation and Infrastructure", "Ways and Means"]
   const committeeSizes = {
     "Agriculture": 54,
     "Appropriations": 63,
@@ -81,9 +81,8 @@ function App() {
     "Small Business": 27,
     "Transportation and Infrastructure": 67,
     "Veterans’ Affairs": 25,
-    "Ways and Means": 45,
-    "Testing 100%": 1
-  }
+    "Ways and Means": 45
+    }
 
   useEffect(() => {
     if (gameStarted) {
@@ -366,7 +365,7 @@ function App() {
     const strategyBonus = strategicChoice === 'compromise' ? 0.08 : strategicChoice === 'aggressive' ? 0.03 : 0.05
     const partyBonus = politicalParty === 'Democrat' ? 0.04 : politicalParty === 'Republican' ? 0.03 : 0.01
     
-    baseChance += supportersBonus + moneyBonus + energyBonus + speedBonus + strategyBonus + partyBonus
+    baseChance += (supportersBonus + moneyBonus + energyBonus + speedBonus + strategyBonus + partyBonus) * 0.5
     baseChance = Math.max(0.25, Math.min(0.85, baseChance))
     
     const success = Math.random() < baseChance
