@@ -598,6 +598,7 @@ function App() {
           <div className="login-header">
             <h1 className="game-title">LawTopia</h1>
             <p className="game-subtitle">By Shivum, Charan, and Jasraj</p>
+            <p className="game-subtitle"><a href="https://github.com/shakArora/govGame/blob/main/RULES.md">Rules and Notes</a></p>
           </div>
           <form onSubmit={handleSubmit} className="login-form">
             <div className="form-group">
